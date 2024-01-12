@@ -2,7 +2,6 @@
 """Creates and returns an asyncio.Task that waits for a random delay between 0 and max_delay seconds.
 """
 import asyncio
-from typing import Generator
 wait_n = __import__('2-measure_runtime').wait_n
 def task_wait_random(max_delay: int) -> asyncio.Task:
     """
@@ -12,7 +11,7 @@ def task_wait_random(max_delay: int) -> asyncio.Task:
     Returns:
       - asyncio.Task: A Task representing the execution of wait_random.
     """
-    return asyncio.create_task(wait_n(max_delay))
+    return asyncio.create_task(wait_n(1, max_delay))
 
 # Example usage:
 if __name__ == "__main__":
