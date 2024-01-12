@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-""" Coroutine at the same time with  async """
+""" Asynchronous coroutine that waits for a random delay between 0 and max_delay seconds."""
 import asyncio
 import random
 
 async def wait_random(max_delay: int = 10) -> float:
     """
-    Asynchronous coroutine that waits for a random delay between 0 and max_delay seconds.
 
     Parameters:
       - max_delay (int): The maximum delay in seconds (default value is 10).
