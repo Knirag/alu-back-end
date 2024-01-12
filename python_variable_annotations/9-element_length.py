@@ -1,23 +1,20 @@
 #!/usr/bin/env python3
-from typing import Callable
+from typing import Iterable, Sequence, List, Tuple
 
-def make_multiplier(multiplier: float) -> Callable[[float], float]:
+def element_length(lst: Iterable[Sequence]) -> List[Tuple[Sequence, int]]:
     """
-    Returns a function that multiplies a float by the given multiplier.
+    Returns a list of tuples where each tuple contains an element from the input list
+    and its corresponding length.
 
     Parameters:
-      - multiplier (float): The multiplier to be used in the returned function.
+      - lst (Iterable[Sequence]): The input list of sequences.
 
     Returns:
-      - Callable[[float], float]: A function that takes a float argument and
-                                  returns the product of the argument and the multiplier.
+      - List[Tuple[Sequence, int]]: A list of tuples containing each element from the input
+                                    list and its corresponding length.
 
     Example:
-      >>> fun = make_multiplier(2.22)
-      >>> fun(2.22)
-      4.9284
+      >>> element_length(["apple", "banana", "orange"])
+      [('apple', 5), ('banana', 6), ('orange', 6)]
     """
-    def multiplier_function(x: float) -> float:
-        return x * multiplier
-
-    return multiplier_function
+    return [(i, len(i)) for i in lst]
