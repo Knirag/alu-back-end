@@ -6,7 +6,6 @@ from typing import List
 wait_n = __import__('1-concurrent_coroutines').wait_n
 def measure_time(n: int, max_delay: int) -> float:
     """
-
     Parameters:
       - n (int): The number of times to call wait_n.
       - max_delay (int): The maximum delay in seconds for each wait_random call.
