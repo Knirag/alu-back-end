@@ -68,9 +68,4 @@ class BabyNameServer:
         else:
             next_index = keys_list[next_index]
 
-        return {
-            'index': current_index,
-            'next_index': next_index,
-            'page_size': len(result_dataset),
-            'data': result_dataset
-        }
+
