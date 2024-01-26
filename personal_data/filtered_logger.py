@@ -18,11 +18,8 @@ def filter_datum(fields: List[str], redaction: str,
     :param separator: String representing the character separating fields in the log line.
     :return: String with specified fields obfuscated.
     """
-
     pattern = re.compile(
-        '|'.join(r'({})=[^{}'.format(field, re.escape(separator))
-                 for field in fields
-                 )
+        '|'.join(map(re.escape, fields)) + f'=[^{re.escape(separator)}]*'
     )
-    return re.sub(pattern, lambda match: match.group(
-        1) + '=' + redaction, message)
+    return re.sub(pattern, lambda match: match.group()[
+                  :len(match.group()) - len(redaction)] + redaction, message)
