@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """
-Module for filtering log data.
+Module for filtering log data
 """
 
 import re
 from typing import List
 
 
-def filter_datum(
-    fields: List[str], redaction: str, message: str, separator: str
-) -> str:
+def filter_datum(fields: List[str], redaction: str,
+                 message: str, separator: str) -> str:
     """
     Obfuscate specified fields in the log message using redaction string.
 
@@ -19,10 +18,11 @@ def filter_datum(
     :param separator: String representing the character separating fields in the log line.
     :return: String with specified fields obfuscated.
     """
+
     pattern = re.compile(
-        r"(?<=(" + "|".join(fields) + r")=)[^" + re.escape(separator) + r"]*"
+        '|'.join(r'({})=[^{}'.format(field, re.escape(separator))
+                 for field in fields
+                 )
     )
-    return re.sub(pattern, redaction, message)
-
-
-# Additional functions or classes as needed
+    return re.sub(pattern, lambda match: match.group(
+        1) + '=' + redaction, message)
