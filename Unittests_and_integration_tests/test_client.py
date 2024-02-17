@@ -31,9 +31,9 @@ class TestGithubOrgClient(unittest.TestCase):
         # Access the mocked property to get its return value
         mock_org.assert_called_once()
         mock_org.return_value.__getitem__.assert_called_once_with('repos_url')
-    @patch('client.GithubOrgClient._public_repos_url', return_value='https://api.github.com/orgs/testorg/repos')
     @patch('client.get_json')
-    def test_public_repos(self, mock_get_json, mock_public_repos_url):
+    @patch('client.GithubOrgClient._public_repos_url', return_value='https://api.github.com/orgs/testorg/repos')
+    def test_public_repos(self, mock_public_repos_url, mock_get_json):
         """
         Test public_repos method
         """
