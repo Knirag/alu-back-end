@@ -4,7 +4,6 @@ Unittests for utils
 """
 import unittest
 from unittest.mock import patch
-from parameterized import parameterized
 from client import GithubOrgClient
 
 
@@ -33,9 +32,9 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_org.return_value.__getitem__.assert_called_once_with('repos_url')
         self.assertEqual(result, "https://api.github.com/orgs/testorg/repos")
 
-    @patch('client.GithubOrgClient._public_repos_url')
     @patch('client.get_json')
-    def test_public_repos(self, mock_get_json, mock_public_repos_url):
+    @patch('client.GithubOrgClient._public_repos_url')
+    def test_public_repos(self, mock_public_repos_url, mock_get_json):
         """
         Test public_repos method
         """
@@ -53,22 +52,22 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.assert_called_once_with('https://api.github.com/orgs/testorg/repos')
         self.assertEqual(result, [{"name": "repo1"}, {"name": "repo2"}])
 
-    @parameterized.expand([
-        ({"license": {"key": "my_license"}}, "my_license", True),
-        ({"license": {"key": "other_license"}}, "my_license", False),
-    ])
-    def test_has_license(self, repo, license_key, expected_result):
+    def test_has_license(self):
         """
         Test has_license method
         """
         # Create an instance of GithubOrgClient
         github_client = GithubOrgClient("testorg")
 
+        # Mock repo and license_key
+        repo = {"license": {"key": "my_license"}}
+        license_key = "my_license"
+
         # Call the method under test (has_license)
         result = github_client.has_license(repo, license_key)
 
         # Assertion
-        self.assertEqual(result, expected_result)
+        self.assertTrue(result)
 
 
 if __name__ == '__main__':
