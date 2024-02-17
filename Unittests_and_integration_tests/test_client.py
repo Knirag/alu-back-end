@@ -15,7 +15,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
 
 @patch('client.GithubOrgClient.org')
-def test_public_repos_url(self, mock_org):
+def test_org(self, mock_org):
     """
     Test _public_repos_url method
     """
@@ -33,7 +33,8 @@ def test_public_repos_url(self, mock_org):
     mock_org.assert_called_once()
     mock_org.return_value.__getitem__.assert_called_once_with('repos_url')
     self.assertEqual(result, "https://api.github.com/orgs/testorg/repos")
-
+    pass
+    
     @patch('client.GithubOrgClient._public_repos_url', return_value='https://api.github.com/orgs/testorg/repos')
 @patch('client.get_json')
 def test_public_repos(self, mock_get_json, mock_public_repos_url):
@@ -54,7 +55,7 @@ def test_public_repos(self, mock_get_json, mock_public_repos_url):
     mock_get_json.assert_called_once_with(
         'https://api.github.com/orgs/testorg/repos')
     self.assertEqual(result, [{"name": "repo1"}, {"name": "repo2"}])
-
+    pass
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False),
@@ -71,7 +72,6 @@ def test_public_repos(self, mock_get_json, mock_public_repos_url):
 
         # Assertion
         self.assertEqual(result, expected_result)
-
 
 if __name__ == '__main__':
     unittest.main()
