@@ -9,7 +9,7 @@ from utils import access_nested_map, get_json, memoize
 class TestAccessNestedMap(unittest.TestCase):
 
 
-""" Tests for access_nested_map function """
+    """ Access_nested_map function """
 
 
 @parameterized.expand([
@@ -35,7 +35,7 @@ def test_access_nested_map_exception(self, nested_map, path):
 class TestGetJson(unittest.TestCase):
 
 
-""" Tests for get_json function """
+    """ Tests for get_json function """
 
 
 @parameterized.expand([
@@ -59,7 +59,7 @@ def test_get_json(self, test_url, test_payload):
 class TestMemoize(unittest.TestCase):
 
 
-""" Tests for memoize decorator """
+    """ Tests for memoize decorator """
 
 
 def test_memoize(self):
