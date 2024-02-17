@@ -3,7 +3,7 @@
 Unittests for utils
 """
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 from parameterized import parameterized
 from client import GithubOrgClient
 
@@ -33,7 +33,7 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_org.return_value.__getitem__.assert_called_once_with('repos_url')
         self.assertEqual(result, "https://api.github.com/orgs/testorg/repos")
 
-    @patch('client.GithubOrgClient._public_repos_url', return_value='https://api.github.com/orgs/testorg/repos')
+    @patch('client.GithubOrgClient._public_repos_url')
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json, mock_public_repos_url):
         """
@@ -69,6 +69,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
         # Assertion
         self.assertEqual(result, expected_result)
+
 
 if __name__ == '__main__':
     unittest.main()
