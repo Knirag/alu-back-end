@@ -5,19 +5,23 @@ Unittests for utils
 import unittest
 from unittest.mock import patch, Mock
 from parameterized import parameterized
-from client import GithubOrgClient  
+from client import GithubOrgClient
+
 
 class TestGithubOrgClient(unittest.TestCase):
     """
     Unittests for GithubOrgClient
     """
+
+
 @patch('client.GithubOrgClient.org')
 def test_public_repos_url(self, mock_org):
     """
     Test _public_repos_url method
     """
     # Set up the mock response for org
-    mock_org.return_value = {"repos_url": "https://api.github.com/orgs/testorg/repos"}
+    mock_org.return_value = {
+        "repos_url": "https://api.github.com/orgs/testorg/repos"}
 
     # Create an instance of GithubOrgClient
     github_client = GithubOrgClient("testorg")
@@ -29,8 +33,6 @@ def test_public_repos_url(self, mock_org):
     mock_org.assert_called_once()
     mock_org.return_value.__getitem__.assert_called_once_with('repos_url')
     self.assertEqual(result, "https://api.github.com/orgs/testorg/repos")
-
-    
 
     @patch('client.GithubOrgClient._public_repos_url', return_value='https://api.github.com/orgs/testorg/repos')
 @patch('client.get_json')
@@ -49,9 +51,10 @@ def test_public_repos(self, mock_get_json, mock_public_repos_url):
 
     # Assertions
     mock_public_repos_url.assert_called_once()
-    mock_get_json.assert_called_once_with('https://api.github.com/orgs/testorg/repos')
+    mock_get_json.assert_called_once_with(
+        'https://api.github.com/orgs/testorg/repos')
     self.assertEqual(result, [{"name": "repo1"}, {"name": "repo2"}])
-    
+
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False),
@@ -69,6 +72,6 @@ def test_public_repos(self, mock_get_json, mock_public_repos_url):
         # Assertion
         self.assertEqual(result, expected_result)
 
+
 if __name__ == '__main__':
     unittest.main()
-
