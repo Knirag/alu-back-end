@@ -36,7 +36,7 @@ def test_org(self, mock_org):
     pass
     
     @patch('client.GithubOrgClient._public_repos_url', return_value='https://api.github.com/orgs/testorg/repos')
-@patch('client.get_json')
+    @patch('client.get_json')
 def test_public_repos(self, mock_get_json, mock_public_repos_url):
     """
     Test public_repos method
