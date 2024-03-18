@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-''' Basic Flask app and Babel setup, Get Locale from request
-Parameterized templates, Force locale with URL parameter '''
+''' Basic Flask app and Babel setup '''
 
 from flask import Flask, render_template, request
 from flask_babel import Babel
@@ -36,4 +35,3 @@ def hello_world() -> str:
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port="5000")
-
