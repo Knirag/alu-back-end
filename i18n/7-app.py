@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-"""Flask application with Babel for internationalization.
-
-This Flask app demonstrates:
-
-- Retrieving user locale from request arguments
-- Using parameterized templates for dynamic content
-- Forcing a specific locale through a URL parameter
-"""
+''' Flask app (Intl):
+  - Locale from request
+  - Parameterized templates
+  - Force locale via URL
+  - Timezone support (pytz) '''
 
 from typing import Union
 from flask import Flask, render_template, request, g
 from os import getenv
 from flask_babel import Babel
+from pytz import timezone
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -26,31 +24,24 @@ users = {
 
 
 class Config:
-    """Configuration for the application"""
+    ''' App Config '''
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
-app.config.from_object('5-app.Config')
+app.config.from_object('7-app.Config')
 
 
 @app.before_request
 def before_request():
-    """
-    This function is called before each request.
-    Sets the current user based on login arguments.
-    """
+    ''' Set current user based on login arguments '''
     g.user = get_user()
 
 
 @babel.localeselector
 def get_locale() -> str:
-    """
-    Selects the best locale based on user preferences and supported languages.
-    - Checks for a 'locale' parameter in the URL.
-    - If valid, uses that locale.
-    """
+    ''' Select best locale (user pref or supported) '''
     locale = request.args.get('locale')
     if locale and locale in app.config['LANGUAGES']:
         return locale
@@ -59,26 +50,28 @@ def get_locale() -> str:
 
 @app.route("/", methods=["GET"], strict_slashes=False)
 def hello_world() -> str:
-    """
-    Renders the main template (5-index.html).
-    """
-    return render_template('5-index.html')
+    ''' Render main template (7-index.html) '''
+    return render_template('7-index.html')
 
 
 def get_user() -> Union[dict, None]:
-    """
-    Retrieves user information based on login arguments.
-    - Checks for a 'login_as' parameter in the URL.
-    - If present, tries to find the corresponding user in the user dictionary.
-    - Returns the user dictionary if found, otherwise returns None.
-    """
+    ''' Retrieve user info based on login arguments '''
     if request.args.get('login_as'):
         user = int(request.args.get('login_as'))
         if user in users:
             return users.get(user)
-    else:
-        return None
+    return None
+
+
+@babel.timezoneselector
+def get_timezone():
+    ''' Infer appropriate timezone based on user's locale '''
+    user = getattr(g, 'locale', None)
+    if user is not None:
+        return timezone(user['timezone'])
+    return None
 
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port="5000")
+
