@@ -1,40 +1,30 @@
-class Currency {
-  constructor(code, name) {
-    this.code = code;
-    this.name = name;
+export default class Pricing {
+  constructor(amount, currency) {
+    this._amount = amount;
+    this._currency = currency;
   }
 
-  /**
-   * @param {String} code
-   */
-  set code(code) {
-    if (typeof code !== "string") {
-      throw new TypeError("Code must be a String");
-    }
-    this._code = code;
+  set amount(amount) {
+    this._amount = amount;
   }
 
-  get code() {
-    return this._code;
+  get amount() {
+    return this._amount;
   }
 
-  /**
-   * @param {String} name
-   */
-  set name(name) {
-    if (typeof name !== "string") {
-      throw new TypeError("Name must be a String");
-    }
-    this._name = name;
+  set currency(currency) {
+    this._currency = currency;
   }
 
-  get name() {
-    return this._name;
+  get currency() {
+    return this._currency;
   }
 
-  displayFullCurrency() {
-    return `${this.name} (${this.code})`;
+  displayFullPrice() {
+    return `${this.amount} ${this.currency.displayFullCurrency()}`;
+  }
+
+  static convertPrice(amount, conversionRate) {
+    return amount * conversionRate;
   }
 }
-
-export default Currency;
