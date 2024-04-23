@@ -15,7 +15,7 @@ A central Redis instance used for data caching and request tracking.
 """
 
 
-def cache_data(method: Callable) -> Callable:
+def data_cacher(method: Callable) -> Callable:
     """
     Decorator function that caches the output of a wrapped function
     utilizing Redis for efficient data storage and retrieval.
@@ -30,7 +30,6 @@ def cache_data(method: Callable) -> Callable:
         Tracks the number of requests made to a specific URL using a dedicated
         Redis key and caches the retrieved data for a configurable time period.
         """
-        redis_store.incr(f"count:{url}")
         redis_store.incr(f'count:{url}')
         result = redis_store.get(f'result:{url}')
         if result:
@@ -44,8 +43,8 @@ def cache_data(method: Callable) -> Callable:
     return invoker
 
 
-@cache_data
-def fetch_page(url: str) -> str:
+@data_cacher
+def get_page(url: str) -> str:
     """
     Fetches the content of a given URL, leverages caching for improved
     performance, and tracks request count using Redis.
