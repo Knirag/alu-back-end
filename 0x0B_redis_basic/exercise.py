@@ -97,4 +97,37 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb(True)
 
-    
+        @record_call_history
+    @track_calls
+    def store(self, data: Union[str, bytes, int, float]) -> str:
+        """
+        Stores a value in the Redis data store and returns the generated key for retrieval.
+        Utilizes `uuid.uuid4()` to create a unique key for the stored data.
+        """
+        data_key = str(uuid.uuid4())
+        self._redis.set(data_key, data)
+        return data_key
+
+    def get(
+        self,
+        key: str,
+        fn: Callable = None,
+    ) -> Union[str, bytes, int, float]:
+        """
+        Retrieves a value from the Redis data store using the provided key.
+        Optionally applies a transformation function (`fn`) to the retrieved data before returning it.
+        """
+        data = self._redis.get(key)
+        return fn(data) if fn is not None else data
+
+    def get_str(self, key: str) -> str:
+        """
+        Retrieves a value from the Redis data store using the provided key and ensures it's decoded as a string.
+        """
+        return self.get(key, lambda x: x.decode("utf-8"))
+
+    def get_int(self, key: str) -> int:
+        """
+        Retrieves a value from the Redis data store using the provided key and ensures it's converted to an integer.
+        """
+        return self.get(key, lambda x: int(x))
