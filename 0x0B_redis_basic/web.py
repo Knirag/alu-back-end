@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-This module provides utilities for data caching and request tracking using Redis.
+This module provides utilities for data caching and request tracking.
 """
 
 import redis
