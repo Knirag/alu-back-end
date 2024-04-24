@@ -4,7 +4,7 @@
 
 
 def update_topics(mongo_collection, name, topics):
-    '''Provides some stats about Nginx logs stored in MongoDB
+    '''Returns the list of school having a specific topic
     '''
     mongo_collection.update_many(
         {'name': name},
