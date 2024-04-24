@@ -4,7 +4,7 @@
 
 
 def update_topics(mongo_collection, name, topics):
-    '''Changes all topics of a collection's document based on the name.
+    '''Provides some stats about Nginx logs stored in MongoDB
     '''
     mongo_collection.update_many(
         {'name': name},
