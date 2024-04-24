@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-'''Task 10's module.
-'''
+"""
+ Returns the list of school having a specific topic
+"""
 
 
-def update_topics(mongo_collection, name, topics):
-    '''Returns the list of school having a specific topic
-    '''
-    mongo_collection.update_many(
-        {'name': name},
-        {'$set': {'topics': topics}}
-    )
+def schools_by_topic(mongo_collection, topic):
+    """
+    Prototype: def schools_by_topic(mongo_collection, topic):
+    Return list of schools having a specific topic
+    """
+    return mongo_collection.find({"topics": topic})
